@@ -42,19 +42,19 @@ export default class Categories{
   }
 
   // Update category
-  async update(category : Category) : Promise <Category> {
+  async update(id : number,category : Category) : Promise <Category> {
     try
     {
       const con = await db.connect()
       const sql = 'UPDATE categories SET title = $1 where id = $2 RETURNING *'
-      const result = await con.query(sql, [category.title, category.id]) 
+      const result = await con.query(sql, [category.title, id]) 
 
       con.release()
       return result.rows[0]
     }
     catch(err)
     {
-      throw new Error(`couldn't update category (id : ${category.id})\n${err}`)
+      throw new Error(`couldn't update category (id : ${id})\n${err}`)
     }
   }
 

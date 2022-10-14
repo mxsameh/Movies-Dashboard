@@ -46,13 +46,12 @@ export default class Movies {
   }
 
   // Update movie
-  async update (movie : Movie) : Promise <Movie> {
+  async update (id : number, movie : Movie) : Promise <Movie> {
     try
     {
       const con = await db.connect()
       const sql = 'UPDATE movies SET title=$1, description=$2, rate=$3, image=$4, category=$5 WHERE id=$6 RETURNING *' 
-      const result = await con.query(sql, [movie.title, movie.description, movie.rate, movie.image, movie.category, movie.id])
-
+      const result = await con.query(sql, [movie.title, movie.description, movie.rate, movie.image, movie.category, id])
       con.release() 
       return result.rows[0]
     }

@@ -1,4 +1,5 @@
 import express, { Request, Response, Express } from 'express'
+import categoriesRoutes from './handlers/categoriesHandler'
 import moviesRoutes from './handlers/moviesHandler'
 import usersRoutes from './handlers/usersHandler'
 
@@ -8,8 +9,9 @@ const app : Express = express()
 app.use(express.json())
 
 // APIS
-usersRoutes(app);
+usersRoutes(app)
 moviesRoutes(app)
+categoriesRoutes(app)
 
 // SERVER
 app.get('/',(req : Request,res : Response) =>
