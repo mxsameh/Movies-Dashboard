@@ -1,15 +1,21 @@
 import express, { Request, Response, Express } from 'express'
+import moviesRoutes from './handlers/moviesHandler'
 import usersRoutes from './handlers/usersHandler'
 
 const app : Express = express()
 
+// MIDDLEWARES
+app.use(express.json())
+
+// APIS
+usersRoutes(app);
+moviesRoutes(app)
+
+// SERVER
 app.get('/',(req : Request,res : Response) =>
 {
   res.send('Wellcome!')
 })
-
-app.use(express.json())
-usersRoutes(app);
 
 const port = 3000
 app.listen(port, () =>
