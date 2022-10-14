@@ -2,6 +2,7 @@ import { Application, Request, Response } from "express";
 import Users from "../models/userModel"
 import { comparePassword, hashPassword } from "../utils/bcrypt";
 import { createToken } from "../utils/jwt";
+import authenticate from "../middlewares/authenticate";
 
 const usersTable = new Users;
 
@@ -34,33 +35,37 @@ const create = async (req : Request, res : Response) : Promise <void> =>
     const createdUser = await usersTable.create(user);
     if(createdUser && createdUser.email == user.email)
     {
-      res.status(200).json('created successfully')
+      delete user.password
+      const token = createToken(user)
+      res.status(200).json({created : true, token})
     }
   }
   catch(err)
   {
-    res.status(404).json(`${err}`)
+    res.status(404).send(`${err}`)
   }
 }
 
-const authenticate = async (req : Request, res : Response) : Promise <void> =>
+const auth = async (req : Request, res : Response) : Promise <void> =>
 {
   const email = req.body.user.email
   const password = req.body.user.password
+  console.log( password );
 
   try
   {
     const user  = await usersTable.show(email)
-    const isValid = comparePassword(password, user.password)
-    if(isValid)
+    if(user)
     {
-      const token = createToken(user)
-      res.status(200).json({authenticated : true, token})
+      const isValid = comparePassword(password, user.password)
+      if(isValid)
+      {
+        const token = createToken(user)
+        res.status(200).json({authenticated : true, token})
+      }
+      return
     }
-    else
-    {
-      res.status(401).json({authenticated : false})
-    }
+    res.status(401).json({authenticated : false})
   }
   catch(err)
   {
@@ -71,9 +76,9 @@ const authenticate = async (req : Request, res : Response) : Promise <void> =>
 
 const usersRoutes = (app : Application) : void =>
 {
-  app.get('/users',index)
+  app.get('/users',authenticate,index)
   app.post('/users',create)
-  app.post('/users/authenticate',authenticate)
+  app.post('/users/auth',auth)
 }
 
 export default usersRoutes
