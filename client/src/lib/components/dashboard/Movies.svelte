@@ -1,10 +1,9 @@
 <script lang="ts">
-	import Categories from "./Categories.svelte";
-
 
   export let data;
 
   const token = data.token;
+  const server = data.server
   let popupOpened = false;
   let popup : string; 
   let movies : any;
@@ -13,7 +12,7 @@
 
   const getMovies = async () =>
   {
-    const res = await fetch('http://localhost:3000/movies',{
+    const res = await fetch(`${server}/movies`,{
       headers : {
         "Authorizatoin" : `Bearer ${token}`
       }
@@ -34,7 +33,7 @@
 
   const getCategories = async () =>
   {
-    const res = await fetch('http://localhost:3000/categories',{
+    const res = await fetch(`${server}/categories`,{
       headers : {
         "Authorizatoin" : `Bearer ${token}`
       }
@@ -64,7 +63,7 @@
 
   const deleteMovie = async (id : number) =>
   {
-    const res = await fetch(`http://localhost:3000/movies/${id}`,{
+    const res = await fetch(`${server}/movies/${id}`,{
       method : 'DELETE',
       headers : {
         'Content-Type' : 'application/json',

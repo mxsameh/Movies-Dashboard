@@ -3,6 +3,7 @@
   export let data;
 
   const token = data.token;
+  const server = data.server
   let popupOpened = false;
   let popup : string; 
   let categories : any;
@@ -10,7 +11,7 @@
 
   const getCategories = async () =>
   {
-    const res = await fetch('http://localhost:3000/categories',{
+    const res = await fetch(`${server}/categories`,{
       headers : {
         "Authorizatoin" : `Bearer ${token}`
       }
@@ -48,7 +49,7 @@
 
   const deleteCategory = async (id : number) =>
   {
-    const res = await fetch(`http://localhost:3000/categories/${id}`,{
+    const res = await fetch(`${server}/categories/${id}`,{
       method : 'DELETE',
       headers : {
         'Content-Type' : 'application/json',

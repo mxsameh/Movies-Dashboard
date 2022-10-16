@@ -4,6 +4,7 @@
 
   const user = data.user
   const token = data.token
+  const server = data.server
   let popupOpened = false
   let popup : string; 
   let users : any;
@@ -11,7 +12,7 @@
   const viewAllUsers = async () =>
   {
     popup = 'view'
-      const res = await fetch('http://localhost:3000/users',{
+      const res = await fetch(`${server}/users`,{
         headers : {
           "Authorization" : `Bearer ${token}`
         }
