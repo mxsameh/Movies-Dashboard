@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/server.ts",
-    "reset-db": "db-migrate reset && db-migrate up"
+    "reset-db": "db-migrate reset && db-migrate up",
+    "build" : "tsc",
+    "start" : "node dist/server.js"
   },
   "keywords": [],
   "author": "",
