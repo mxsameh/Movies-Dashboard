@@ -11,7 +11,10 @@ const db = new Pool(
     host : env.DB_HOST,
     database : env.DB,
     user : env.DB_USER,
-    password : env.DB_PASSWORD
+    password : env.DB_PASSWORD,
+    ssl : {
+      rejectUnauthorized : false
+    }
   }
 )
 
