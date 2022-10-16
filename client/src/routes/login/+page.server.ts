@@ -25,7 +25,6 @@ export const actions : Actions = {
     }) 
 
     const data = await res.json()
-    console.log( data );
     
     const isAuthenticated = data.authenticated
     const token = data.token

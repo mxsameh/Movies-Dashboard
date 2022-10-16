@@ -2,7 +2,6 @@ import { DEV_SERVER, ENV, PROD_SERVER } from "$env/static/private"
 import { redirect, type Actions, type ServerLoad } from "@sveltejs/kit"
 
 const server = ENV == 'dev' ? DEV_SERVER : PROD_SERVER
-console.log( server );
 
 export const load : ServerLoad = ({ locals, url }) =>
 {

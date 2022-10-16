@@ -4,6 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "ENV=dev vite dev",
+		"prod": "ENV=prod vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
