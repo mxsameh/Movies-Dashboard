@@ -28,6 +28,7 @@ const create = async (req : Request, res : Response) : Promise <void> =>
 {
   // get user data from the request body 
   const user = req.body.user;
+
   // hashing user password for security
   user.password = hashPassword(user.password)
   try
@@ -50,16 +51,16 @@ const auth = async (req : Request, res : Response) : Promise <void> =>
 {
   const email = req.body.user.email
   const password = req.body.user.password
-  console.log( password );
 
   try
   {
     const user  = await usersTable.show(email)
     if(user)
     {
-      const isValid = comparePassword(password, user.password)
+      const isValid = comparePassword(password, user.password as string)
       if(isValid)
       {
+        delete user.password
         const token = createToken(user)
         res.status(200).json({authenticated : true, token})
       }

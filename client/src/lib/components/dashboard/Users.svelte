@@ -47,10 +47,9 @@
   //   }
   // }
 
-  const goToLogin = () =>
+  const logout = () =>
   {
-    goto('/login')
-    
+    goto('/logout')
   }
   
 </script>
@@ -63,9 +62,7 @@
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <li class="users__box" on:click={createNewUser}>create new user</li>
     <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <li class="users__box" on:click={goToLogin}       {#if !movies.length }
-    <p>No movies found</p> 
-  {:else}>login</li>
+    <li class="users__box" on:click={logout}>logout</li>
   </ul>
 </section>
 

@@ -1,4 +1,5 @@
 import { Application, Request, Response } from "express";
+import authenticate from "../middlewares/authenticate";
 import Movies from "../models/movieModel";
 
 const moviesTable = new Movies()
@@ -59,7 +60,6 @@ const update = async ( req : Request, res : Response) =>
 const destroy = async (req : Request, res : Response) =>
 {
   const id = parseInt(req.params.id)
-
   try
   {
     const movie = await moviesTable.delete(id)
@@ -82,9 +82,9 @@ const destroy = async (req : Request, res : Response) =>
 const moviesRoutes = (app : Application) =>
 {
   app.get('/movies',index)
-  app.post('/movies',create)
-  app.delete('/movies/:id',destroy)
-  app.put('/movies/:id',update)
+  app.post('/movies', authenticate,create)
+  app.delete('/movies/:id', authenticate ,destroy)
+  app.put('/movies/:id', authenticate,update)
 }
 
 export default moviesRoutes

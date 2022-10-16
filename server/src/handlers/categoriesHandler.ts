@@ -1,4 +1,5 @@
 import { Application, Request, Response } from "express";
+import authenticate from "../middlewares/authenticate";
 import Categories from "../models/categoryModel";
 
 const categoriesTable = new Categories()
@@ -41,9 +42,12 @@ const update = async ( req : Request, res : Response) =>
   try
   {
     const updatedCategory = await categoriesTable.update(id,category) 
-    if(updatedCategory == category)
+    if(updatedCategory.id != category.id)
     {
-      res.status(200).json({updated : true})
+      res.status(404).json({updated : false})
+    }
+    else{
+      res.status(200).json({updated: true})
     }
   }
   catch(err)
@@ -75,9 +79,9 @@ const destroy = async ( req : Request, res : Response) =>
 const categoriesRoutes = (app : Application) =>
 {
   app.get('/categories',index)
-  app.post('/categories',create)
-  app.delete('/categories/:id',destroy)
-  app.put('/categories/:id',update)
+  app.post('/categories', authenticate,create)
+  app.delete('/categories/:id', authenticate,destroy)
+  app.put('/categories/:id', authenticate,update)
 }
 
 export default categoriesRoutes

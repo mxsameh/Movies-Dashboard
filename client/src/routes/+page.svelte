@@ -5,6 +5,7 @@
 <h1 class="title">Welcome</h1>
 
 <a class="dashboard-btn" href="/dashboard">dashboard</a>
+<a class="login-btn" href="/login">login</a>
 
 <style lang="scss">
   .title{
@@ -14,7 +15,7 @@
     text-transform: capitalize;
     margin-top: 24px;
   }
-  .dashboard-btn{
+  .dashboard-btn,.login-btn{
     padding: 12px 80px;
     background-color: #dedede;
     color: #333;
@@ -30,5 +31,10 @@
       background-color: #333;
       color: #dedede;
     }
+  }
+  .login-btn{
+    background-color: #555;
+    color: #222;
+
   }
 </style>

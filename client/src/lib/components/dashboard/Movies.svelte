@@ -110,7 +110,7 @@
 
   {#if popup == "view"}
   <div class="moviesList">
-    {#if !movies.length }
+    gout    {#if !movies.length }
     <p>No movies found</p> 
     {:else}
       {#each movies as movie (movie.id) }

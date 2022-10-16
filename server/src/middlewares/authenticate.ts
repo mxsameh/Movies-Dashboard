@@ -11,7 +11,7 @@ const authenticate = (req : Request, res : Response, next : NextFunction) =>
   }
   else
   {
-    res.status(404).send('not authorized')
+    res.status(401).json('not authorized')
   }
 }
 

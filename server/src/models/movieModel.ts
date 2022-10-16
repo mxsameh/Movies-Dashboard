@@ -66,7 +66,7 @@ export default class Movies {
     try{
       const con = await db.connect()
       const sql = 'DELETE FROM movies WHERE id = $1 RETURNING *'
-      const result = await con.query(sql)
+      const result = await con.query(sql,[id])
 
       con.release()
       return result.rows[0]
