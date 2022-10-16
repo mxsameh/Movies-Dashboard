@@ -37,15 +37,15 @@
     popupOpened = false
   }
 
-  $:
-  {
-    if(form?.success)
-    {
-      setTimeout(()=>{
-        console.log( 'remove' );
-      }, 2000)
-    }
-  }
+  // $:
+  // {
+  //   if(form?.success)
+  //   {
+  //     setTimeout(()=>{
+  //       console.log( 'remove' );
+  //     }, 2000)
+  //   }
+  // }
 
   const goToLogin = () =>
   {
@@ -63,7 +63,9 @@
     <!-- svelte-ignore a11y-click-events-have-key-events -->
     <li class="users__box" on:click={createNewUser}>create new user</li>
     <!-- svelte-ignore a11y-click-events-have-key-events -->
-    <li class="users__box" on:click={goToLogin} >login</li>
+    <li class="users__box" on:click={goToLogin}       {#if !movies.length }
+    <p>No movies found</p> 
+  {:else}>login</li>
   </ul>
 </section>
 
@@ -85,7 +87,7 @@
 
   </div>
   {:else if popup == "create"}
-    <form method="POST" action="?/create" class="newUserForm">
+    <form method="POST" action="?/createUser" class="newUserForm">
       <label for="name">name</label>
       <input name="name" type="text" placeholder="Enter your name" required>
       <label for="email">email</label>
@@ -99,11 +101,11 @@
 </div>
 {/if}
 
-{#if form?.success}
+<!-- {#if form?.success}
 <div class="successBox">
   <p>user created successfully</p>
 </div>
-{/if}
+{/if} -->
 
 
 <style lang="scss">
@@ -178,7 +180,7 @@
  .usersList{
   background-color: white;
   width: 800px;
-  height: 600px;
+  max-height: 600px;
   padding: 24px;
   border-radius: 16px;
   display: flex;
@@ -206,8 +208,9 @@
  .newUserForm{
   background-color: white;
   width: 800px;
-  height: 600px;
+  max-height: 600px;
   padding: 40px 24px;
+  border-radius: 6px;
 
   label{
     display: block;

@@ -12,6 +12,7 @@ export const actions : Actions = {
       password : form.get('password')
     }
 
+    console.log( user );
     // Authenticate user
     const res = await fetch('http://localhost:3000/users/auth',{
       method : "POST",

@@ -1,8 +1,14 @@
-import { redirect, type Actions, type ServerLoad } from "@sveltejs/kit";
+import { redirect, type Actions, type ServerLoad } from "@sveltejs/kit"
 
-
-export const load : ServerLoad = ({ locals }) =>
+export const load : ServerLoad = ({ locals, url }) =>
 {
+  const user = locals.user
+
+  if(!user)
+  {
+    throw redirect(307, `/login?redirectTo=${url.pathname}`)
+  }
+
   return {
     user : locals.user,
     token : locals.token
@@ -10,7 +16,7 @@ export const load : ServerLoad = ({ locals }) =>
 }
 
 export const actions : Actions = {
-  create : async ({request, locals , fetch}) =>
+  createUser : async ({request, locals , fetch}) =>
   {
     const form = await request.formData()
     const name = form.get('name')
@@ -21,6 +27,7 @@ export const actions : Actions = {
       email,
       password
     }
+
     const token = locals.token
 
     const res = await fetch('http://localhost:3000/users',{
@@ -41,5 +48,125 @@ export const actions : Actions = {
       success : created
     }
 
+  },
+
+  createCategory : async ({ request, locals, fetch}) =>
+  {
+    const form = await request.formData()
+    const title = form.get('title')
+    const category = {
+      title
+    }
+
+    const token = locals.token
+
+    const res = await fetch('http://localhost:3000/categories',{
+      method : 'POST',
+      body : JSON.stringify({category}),
+      headers : {
+        'Content-Type' : 'application/json',
+        'Authorization' : `Bearer ${token}`
+      }
+    })
+
+    const resData = await res.json()
+
+    return{
+      success : resData.created
+    }
+  },
+
+  editCategory : async ({request,locals,fetch}) =>
+  {
+    const form = await request.formData()
+    const title = form.get('title')
+    const id = form.get('id')
+    const category = {
+      title,
+      id
+    }
+    
+    const token = locals.token
+    const res = await fetch(`http://localhost:3000/categories/${id}`,{
+      method : 'PUT',
+      body : JSON.stringify({category}),
+      headers : {
+        'Content-Type' : 'application/json',
+        'Authorization' : `Bearer ${token}`
+      }
+    })
+    const resData = await res.json()
+
+    return{
+      success : resData.updated
+    }
+  },
+
+  createMovie : async ({ request, locals, fetch}) =>
+  {
+    const form = await request.formData()
+    const title = form.get('title')
+    const description = form.get('description')
+    const rate = form.get('rate')
+    const image = form.get('image')
+    const category = form.get('category')
+    const movie = {
+      title,
+      description,
+      rate,
+      image,
+      category
+    }
+
+    const token = locals.token
+
+    const res = await fetch('http://localhost:3000/movies',{
+      method : 'POST',
+      body : JSON.stringify({movie}),
+      headers : {
+        'Content-Type' : 'application/json',
+        'Authorization' : `Bearer ${token}`
+      }
+    })
+
+    const resData = await res.json()
+
+    return{
+      success : resData.created
+    }
+  },
+
+  editMovie : async ({request,locals,fetch}) =>
+  {
+    const form = await request.formData()
+    const id  = form.get('id')
+    const title = form.get('title')
+    const description = form.get('description')
+    const rate = form.get('rate')
+    const image = form.get('image')
+    const category = form.get('category')
+    const movie = {
+      title,
+      description,
+      rate,
+      image,
+      category
+    }
+
+    
+    const token = locals.token
+    const res = await fetch(`http://localhost:3000/movies/${id}`,{
+      method : 'PUT',
+      body : JSON.stringify({movie}),
+      headers : {
+        'Content-Type' : 'application/json',
+        'Authorization' : `Bearer ${token}`
+      }
+    })
+    const resData = await res.json()
+
+    return{
+      success : resData.updated
+    }
   }
 } 
