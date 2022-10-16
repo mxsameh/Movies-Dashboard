@@ -3,7 +3,6 @@
 
 
   export let data;
-  export let form;
 
   const token = data.token;
   let popupOpened = false;
@@ -110,8 +109,8 @@
 
   {#if popup == "view"}
   <div class="moviesList">
-    gout    {#if !movies.length }
-    <p>No movies found</p> 
+    {#if !movies.length }
+      <p>No movies found</p> 
     {:else}
       {#each movies as movie (movie.id) }
       <div class="movie">

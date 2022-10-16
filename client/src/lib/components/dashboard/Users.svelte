@@ -1,11 +1,6 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
-
-
-
-
   export let data;
-  export let form : any;
 
   const user = data.user
   const token = data.token
@@ -106,18 +101,18 @@
 
 
 <style lang="scss">
-  .successBox{
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%,-50%);
-    background-color: #555;
-    color: white;
-    text-transform: capitalize;
-    font-size: 20px;
-  }
+  // .successBox{
+  //   position: absolute;
+  //   width: 200px;
+  //   height: 200px;
+  //   top: 50%;
+  //   left: 50%;
+  //   transform: translate(-50%,-50%);
+  //   background-color: #555;
+  //   color: white;
+  //   text-transform: capitalize;
+  //   font-size: 20px;
+  // }
  .users{
 
   &__title{

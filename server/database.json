@@ -3,10 +3,19 @@
   "dev" :
   {
     "driver" : "pg",
-    "user" : { "ENV" : "DB_USER" },
-    "database" : { "ENV" : "DB" },
-    "password" : { "ENV" : "DB_PASSWORD" },
-    "host" : { "ENV" : "DB_HOST" },
+    "user" : { "ENV" : "DEV_DB_USER" },
+    "database" : { "ENV" : "DEV_DB" },
+    "password" : { "ENV" : "DEV_DB_PASSWORD" },
+    "host" : { "ENV" : "DEV_DB_HOST" }
+  },
+  "prod" :
+  {
+    "driver" : "pg",
+    "user" : { "ENV" : "PROD_DB_USER" },
+    "database" : { "ENV" : "PROD_DB" },
+    "password" : { "ENV" : "PROD_DB_PASSWORD" },
+    "host" : { "ENV" : "PROD_DB_HOST" },
     "ssl" : {"rejectUnauthorized":false}
+
   }
 }

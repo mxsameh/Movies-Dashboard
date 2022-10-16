@@ -1,7 +1,6 @@
 <script lang="ts">
 
   export let data;
-  export let form;
 
   const token = data.token;
   let popupOpened = false;

@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/server.ts",
-    "reset-db": "db-migrate reset && db-migrate up",
+    "dev": "NODE_ENV=dev nodemon src/server.ts",
+    "prod" : "NODE_ENV=prod nodemon dist/server.ts",
+    "reset-db": "db-migrate --env test reset && db-migrate --env test up",
     "build" : "tsc",
     "start" : "node dist/server.js"
   },

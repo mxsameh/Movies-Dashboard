@@ -4,7 +4,6 @@
 	import Movies from "$lib/components/dashboard/Movies.svelte";
 
   export let data : any;
-  export let form : any;
 
   const user = data.user
 
@@ -12,9 +11,9 @@
 
 
 <div class="container">
-  <Users {data} {form}/>
-  <Categories {data} {form}/>
-  <Movies {data} {form} />
+  <Users {data}/>
+  <Categories {data}/>
+  <Movies {data} />
 </div>
 
 

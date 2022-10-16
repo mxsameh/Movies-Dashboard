@@ -1,4 +1,8 @@
+import { DEV_SERVER, ENV, PROD_SERVER } from "$env/static/private"
 import { redirect, type Actions, type ServerLoad } from "@sveltejs/kit"
+
+const server = ENV == 'dev' ? DEV_SERVER : PROD_SERVER
+console.log( server );
 
 export const load : ServerLoad = ({ locals, url }) =>
 {
@@ -30,7 +34,7 @@ export const actions : Actions = {
 
     const token = locals.token
 
-    const res = await fetch('http://localhost:3000/users',{
+    const res = await fetch(`${server}/users`,{
       method : "POST",
       body : JSON.stringify({user}) ,
       headers : {
@@ -60,7 +64,7 @@ export const actions : Actions = {
 
     const token = locals.token
 
-    const res = await fetch('http://localhost:3000/categories',{
+    const res = await fetch(`${server}/categories`,{
       method : 'POST',
       body : JSON.stringify({category}),
       headers : {
@@ -87,7 +91,7 @@ export const actions : Actions = {
     }
     
     const token = locals.token
-    const res = await fetch(`http://localhost:3000/categories/${id}`,{
+    const res = await fetch(`${server}/categories/${id}`,{
       method : 'PUT',
       body : JSON.stringify({category}),
       headers : {
@@ -120,7 +124,7 @@ export const actions : Actions = {
 
     const token = locals.token
 
-    const res = await fetch('http://localhost:3000/movies',{
+    const res = await fetch(`${server}/movies`,{
       method : 'POST',
       body : JSON.stringify({movie}),
       headers : {
@@ -155,7 +159,7 @@ export const actions : Actions = {
 
     
     const token = locals.token
-    const res = await fetch(`http://localhost:3000/movies/${id}`,{
+    const res = await fetch(`${server}/movies/${id}`,{
       method : 'PUT',
       body : JSON.stringify({movie}),
       headers : {

@@ -1,9 +1,12 @@
-import { redirect, type Actions, type ServerLoad } from "@sveltejs/kit";
+import { ENV, DEV_SERVER, PROD_SERVER } from "$env/static/private";
+import { redirect, type Actions } from "@sveltejs/kit";
+
+const server = ENV == 'dev' ? DEV_SERVER : PROD_SERVER
 
 export const actions : Actions = {
 
   // LOGIN
-  default : async ({ request, cookies, locals, url }) => {
+  default : async ({ request, cookies, url }) => {
     // Get user login data
     const form = await request.formData()
 
@@ -13,7 +16,7 @@ export const actions : Actions = {
     }
 
     // Authenticate user
-    const res = await fetch('http://localhost:3000/users/auth',{
+    const res = await fetch(`${server}/users/auth`,{
       method : "POST",
       headers : {
         'Content-Type' : 'application/json'
@@ -22,6 +25,7 @@ export const actions : Actions = {
     }) 
 
     const data = await res.json()
+    console.log( data );
     
     const isAuthenticated = data.authenticated
     const token = data.token
