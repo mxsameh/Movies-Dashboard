@@ -1,9 +1,13 @@
 <script lang="ts">
+	import { get_binding_group_value } from "svelte/internal";
+
+
 
   export let data;
 
   const token = data.token;
   const server = data.server
+
   let popupOpened = false;
   let popup : string; 
   let movies : any;
@@ -43,6 +47,41 @@
   }
 
   categories = getCategories();
+
+  const filterMovies = () =>
+  {
+    popup = 'filter'
+  }
+  
+
+let filterRate = 'all';
+let filterCategory = 'all';
+  const filter = async() =>
+  {
+    console.log( 'filter' );
+    getCategories();
+    let  filteredMovies = await getMovies();
+    const form = document.querySelector('.filter-form') as HTMLFormElement
+    filterRate = form.rate.value
+    filterCategory = form.category.value
+
+    console.log( filterRate, filterCategory );
+
+    if(filterRate != 'all')
+    {
+      filteredMovies = filteredMovies.filter(movie => movie.rate >= filterRate)
+    }
+    if(filterCategory != 'all')
+    {
+      filteredMovies = filteredMovies.filter(movie => movie.category == filterCategory)
+    }
+  
+    console.log( filteredMovies );
+    popup = 'view'
+    movies = filteredMovies
+
+  }
+
   const createNewMovie = async() =>
   {
     categories = await getCategories();
@@ -58,7 +97,6 @@
     {
       popupOpened = true
     }
-
   }
 
   const deleteMovie = async (id : number) =>
@@ -85,6 +123,8 @@
   const closePopup = () =>
   {
     popupOpened = false
+    filterRate = 'all'
+    filterCategory = 'all'
   }
 </script>
 
@@ -111,6 +151,7 @@
     {#if !movies.length }
       <p>No movies found</p> 
     {:else}
+    <img class="moviesList-filter" src="/filter.svg" alt="filter" on:click={filterMovies}>
       {#each movies as movie (movie.id) }
       <div class="movie">
         <img src={movie.image} class="movie__img" alt="movie-img">
@@ -118,13 +159,37 @@
           <h2 class="movie__title">{movie.title}</h2>
           <p class="movie__description">Description : <span>{movie.description}</span></p>
           <p class="movie__category">Category :<span>{movie.category}</span></p>
-          <p class="movie__rate">Rate : <span>{movie.rate}/10</span></p>
+          <p class="movie__rate">Rate : <span>{movie.rate}/5</span></p>
           <p class="movie__id">Id : <span>{movie.id}</span></p>
         </div>
      </div> 
       {/each}
     {/if}
+  </div>
 
+  {:else if popup == "filter"}
+  <div class="filter-list">
+    <form class="filter-form" on:submit|preventDefault>
+      <label for="rate">rate</label>
+      <select bind:value={filterRate} name="rate" >
+        <option value="all">All</option>
+        <option value="1">1+</option>
+        <option value="2">2+</option>
+        <option value="3">3+</option>
+        <option value="4">4+</option>
+        <option value="5">5</option>
+      </select>
+
+      <label for="category">Category</label>
+      <select name="category" bind:value={filterCategory}>
+        <option value="all">All</option>
+        {#each categories as category (category.id) }
+        <option value={category.title}>{category.title}</option>
+        {/each}
+      </select>
+
+      <button class="apply-btn" on:click={filter}>apply filter</button>
+    </form>
   </div>
 
   {:else if popup == "create"}
@@ -265,7 +330,68 @@
   flex-direction: column;
   gap: 24px;
   overflow-y: scroll;
+  position: relative;
  }
+ .moviesList-filter{
+  width: 28px;
+  display: block;
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  transition: transform .3s linear;
+  &:hover{
+    cursor: pointer;
+    transform: scale(1.2);
+  }
+ }
+
+ .filter-list{
+  background-color: white;
+  width: 800px;
+  max-height: 600px;
+  overflow-y: scroll;
+  padding: 40px 24px;
+  border-radius: 6px;
+ }
+ .filter-form{
+  width: 100%;
+  label{
+    display: block;
+    width: 100%;
+    font-size: 20px;
+    text-transform: capitalize;
+    &:not(:first-child){
+      margin-top: 24px;
+    }
+  }
+
+  select{
+    margin-top: 12px;
+    padding: 8px;
+    width: 100%;
+    font-size: 18px;
+    border: 2px solid #ccc;
+    background-color: transparent;
+    border-radius: 6px;
+    overflow-y: auto;
+  }
+  .apply-btn{
+    padding: 12px 40px;
+    font-size: 20px;
+    text-transform: capitalize;
+    color: white;
+    background-color: rgb(43, 92, 255);
+    display: block;
+    margin: 40px auto 0;
+    border-radius: 8px;
+    &:hover{
+      cursor: pointer;
+      background-color: rgb(0, 60, 255);
+    }
+  }
+ }
+
+
  .movie{
   border-bottom: 1px solid #555;
   padding-bottom: 16px;
