@@ -2,8 +2,16 @@ import { Application, Request, Response } from "express";
 import authenticate from "../middlewares/authenticate";
 import Categories from "../models/categoryModel";
 
+// Create a categories table
 const categoriesTable = new Categories()
 
+/**
+ * 
+ * Categories Api Functions
+ * 
+ */
+
+// Get all categories
 const index = async (req : Request, res : Response) =>
 {
   try
@@ -17,6 +25,7 @@ const index = async (req : Request, res : Response) =>
   }
 }
 
+// Create a new category
 const create = async (req : Request, res : Response) =>
 {
   const category = req.body.category
@@ -35,6 +44,7 @@ const create = async (req : Request, res : Response) =>
 
 }
 
+// Updata an existing category
 const update = async ( req : Request, res : Response) =>
 {
   const id = parseInt(req.params.id)
@@ -56,6 +66,7 @@ const update = async ( req : Request, res : Response) =>
   }
 }
 
+// Delete an existing category
 const destroy = async ( req : Request, res : Response) =>
 {
   const id = parseInt(req.params.id)
@@ -76,6 +87,10 @@ const destroy = async ( req : Request, res : Response) =>
   }
 }
 
+
+/**
+ * Categories Routes
+ */
 const categoriesRoutes = (app : Application) =>
 {
   app.get('/categories',index)

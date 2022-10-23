@@ -2,8 +2,14 @@ import { Application, Request, Response } from "express";
 import authenticate from "../middlewares/authenticate";
 import Movies from "../models/movieModel";
 
+// Create a movies table
 const moviesTable = new Movies()
 
+/**
+ *  Movies Api Functions
+ */
+
+// Get all movies 
 const index = async (req : Request, res : Response) =>
 {
   try
@@ -17,6 +23,7 @@ const index = async (req : Request, res : Response) =>
   }
 }
 
+// Create a new movie
 const create = async (req : Request, res : Response) =>
 {
   const movie = req.body.movie
@@ -35,6 +42,7 @@ const create = async (req : Request, res : Response) =>
   }
 }
 
+// Update and existing movie
 const update = async ( req : Request, res : Response) =>
 {
   const id = parseInt(req.params.id)
@@ -57,6 +65,7 @@ const update = async ( req : Request, res : Response) =>
   }
 }
 
+// Delete an existing movie
 const destroy = async (req : Request, res : Response) =>
 {
   const id = parseInt(req.params.id)
@@ -78,6 +87,10 @@ const destroy = async (req : Request, res : Response) =>
   }
 }
 
+
+/**
+ * Movies Routes
+ */
 
 const moviesRoutes = (app : Application) =>
 {

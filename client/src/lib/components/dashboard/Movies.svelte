@@ -1,7 +1,4 @@
 <script lang="ts">
-	import { get_binding_group_value } from "svelte/internal";
-
-
 
   export let data;
 

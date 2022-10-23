@@ -4,7 +4,12 @@ import { comparePassword, hashPassword } from "../utils/bcrypt";
 import { createToken } from "../utils/jwt";
 import authenticate from "../middlewares/authenticate";
 
+// Create a users table
 const usersTable = new Users;
+
+/**
+ * Movies Api Functions
+ */
 
 // View all users
 // this should return an array of all users
@@ -47,6 +52,7 @@ const create = async (req : Request, res : Response) : Promise <void> =>
   }
 }
 
+// Authenticate a user
 const auth = async (req : Request, res : Response) : Promise <void> =>
 {
   const email = req.body.user.email
@@ -75,6 +81,9 @@ const auth = async (req : Request, res : Response) : Promise <void> =>
 }
 
 
+/**
+ * Users Routes
+ */
 const usersRoutes = (app : Application) : void =>
 {
   app.get('/users',authenticate,index)
